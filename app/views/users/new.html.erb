@@ -1,7 +1,7 @@
 <h1>Signup!</h1>
 
 <%= form_for :user, url: '/users' do |f| %>
- <% if @user.errors.any? %>
+  <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2>
         <%= pluralize(@user.errors.count, "error") %> prohibited
@@ -13,7 +13,7 @@
         <% end %>
       </ul>
     </div>
-<% end %>
+  <% end %>
 
     First Name: <%= f.text_field :first_name %>
     Last Name: <%= f.text_field :last_name %>

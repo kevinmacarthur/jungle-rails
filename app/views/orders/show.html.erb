@@ -5,23 +5,21 @@
   </header>
 
   <div class="order-summary jumbotron">
-    <h4>Thank you for your order!</h4>
+    <h4>Thank you for your order <%= @order.email %>!</h4>
 
     <% @order.line_items.each do |item| %>
     <div class="order-summary-item">
-    <td class="order-summary-name"><strong> Name: </strong> <%=  item.product.name %></td> <br />
-    <td class="order-summary-description"> <strong> Description: </strong> <%= item.product.description %></td><br />
-    <img src="<%= item.product.image.tiny %>"> <br />
-     <td><strong> Quantity: </strong><%= item.quantity %></td>
+      <td class="order-summary-name"><strong> Name: </strong> <%=  item.product.name %></td> <br />
+      <td class="order-summary-description"> <strong> Description: </strong> <%= item.product.description %></td><br />
+      <img src="<%= item.product.image.tiny %>"> <br />
+      <td><strong> Quantity: </strong><%= item.quantity %></td>
+      <br />
+      <p> </p>
 
-
-
-   </div>
-    <!-- <span> order id is: <%= @order.line_items[0].product.inspect %> <span> -->
+    </div>
     <% end %>
-    <span> ORDER TOTALS </span> <br />
-    <span> Order email was: <%= @order.email %> </span> <br />
-    <span> Order Total was: <%= humanized_money_with_symbol (@order.total_cents / 100.0) %> </span>
+    <span> ORDER TOTAL: <%= humanized_money_with_symbol (@order.total_cents / 100.0) %> </span> <br />
+    <span> We hope you enjoyed your visit </span>
   </div>
 
   <%= link_to "Continue Shopping", root_path, class: 'btn btn-lg btn-primary' %>
