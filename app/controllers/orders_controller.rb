@@ -5,10 +5,11 @@ class OrdersController < ApplicationController
   end
 
   def create
+
     charge = perform_stripe_charge
     order  = create_order(charge)
 
-    if order.valid?
+    if order && order.valid?
       empty_cart!
       OrderMailer.sample_email(order).deliver_now
       redirect_to order, notice: 'Your Order has been placed.'
@@ -28,6 +29,7 @@ class OrdersController < ApplicationController
   end
 
   def perform_stripe_charge
+
     Stripe::Charge.create(
       source:      params[:stripeToken],
       amount:      cart_subtotal_cents,
@@ -37,24 +39,27 @@ class OrdersController < ApplicationController
   end
 
   def create_order(stripe_charge)
-    order = Order.new(
-      email: params[:stripeEmail],
-      total_cents: cart_subtotal_cents,
-      stripe_charge_id: stripe_charge.id, # returned by stripe
-    )
 
-    enhanced_cart.each do |entry|
-      product = entry[:product]
-      quantity = entry[:quantity]
-      order.line_items.new(
-        product: product,
-        quantity: quantity,
-        item_price: product.price,
-        total_price: product.price * quantity
+    return nil if !enhanced_cart.any?
+
+      order = Order.new(
+        email: params[:stripeEmail],
+        total_cents: cart_subtotal_cents,
+        stripe_charge_id: stripe_charge.id, # returned by stripe
       )
-    end
-    order.save!
-    order
+
+      enhanced_cart.each do |entry|
+        product = entry[:product]
+        quantity = entry[:quantity]
+        order.line_items.new(
+          product: product,
+          quantity: quantity,
+          item_price: product.price,
+          total_price: product.price * quantity
+        )
+      end
+      order.save!
+      order
   end
 
 
