@@ -19,6 +19,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
+    update_cart({})
     redirect_to '/'
   end
 end
