@@ -27,9 +27,7 @@
         </li>
 
           <% if current_user %>
-            Signed in as <%= current_user.email %> | <%= link_to "Logout", '/logout' %>
-          <% else %>
-            <%= link_to 'Login', '/login' %> | <%= link_to 'Signup', '/signup' %>
+            <span class="signed-in-as"> Signed in as <%= current_user.email %> <span>
           <% end %>
 
       </ul>
@@ -51,6 +49,12 @@
             <%= fa_icon "shopping-cart" %> My Cart (<%= cart.size %>)
           <% end %>
         </li>
+        <% if current_user %>
+          <li> <%= link_to "Logout", '/logout' %> </li>
+        <% else %>
+          <li> <%= link_to 'Signup', '/signup' %> </li>
+          <li> <%= link_to 'Login', '/login' %> </li>
+        <% end %>
       </ul>
     </div>
   </div>
