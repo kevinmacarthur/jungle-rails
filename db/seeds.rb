@@ -133,4 +133,62 @@ cat3.products.create!({
 })
 
 
+puts "Re-creating Users"
+
+User.destroy_all
+
+User.create!({
+  first_name: "Bob",
+  last_name: "Smith",
+  email: "123@test.com",
+  password: "1234456"
+})
+
+User.create!({
+  first_name: "John",
+  last_name: "doe",
+  email: "1234@test.com",
+  password: "123456"
+})
+
+User.create!({
+  first_name: "Carl",
+  last_name: "Carlson",
+  email: "12345@test.com",
+  password: "1234456"
+})
+
+puts "Re-creating Reviews ..."
+
+Review.destroy_all
+
+puts "Finding or Creating Products ..."
+
+product1 = Product.find_or_create_by! id: 2
+product2 = Product.find_or_create_by! id: 1
+product3 = Product.find_or_create_by! id: 6
+
+user1 = User.find_or_create_by! id:1
+user2 = User.find_or_create_by! id:2
+user3 = User.find_or_create_by! id:3
+
+
+product1.reviews.create!({
+  user_id: user1.id,
+  description: "THIS WAS A VERY GOOD PRODUCT",
+  rating: 5
+})
+
+product2.reviews.create!({
+  user_id: user2.id,
+  description: "Not good",
+  rating: 1
+})
+
+product3.reviews.create!({
+  user_id: user3.id,
+  description: "Not bad but not too too good",
+  rating: 4
+})
+
 puts "DONE!"
