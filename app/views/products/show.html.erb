@@ -35,10 +35,31 @@
           <dd> <%= review.description %> </dd>
           <dt>Rating :</dt>
           <dd> <%= review.rating %> </dd>
+          <dd> REVIEW USER ID IS <%= review.user.id %> </dd>
+          <dd> Current user id is <%= current_user.id %> </dd>
       <% end %>
       </dl>
     </div>
     </div>
+
+
+    <%= form_for [@product, @review] do |f| %>
+
+
+      <p>
+        <%= f.label :review %><br>
+        <%= f.text_field :description %>
+      </p>
+
+      <p>
+        <%= f.label :rating %><br>
+        <%= f.select :rating, [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5]] %>
+      </p>
+
+      <p>
+        <%= f.submit %>
+      </p>
+    <% end %>
 
   </article>
 

@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_product,
   # GET /reviews
   # GET /reviews.json
   def index
@@ -24,17 +24,17 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
-    @review = Review.new(review_params)
-
-    respond_to do |format|
+    @current_user = current_user
+    @review = @current_user.reviews.build(review_params)
+    @review.product = @product
       if @review.save
-        format.html { redirect_to @review, notice: 'Review was successfully created.' }
-        format.json { render :show, status: :created, location: @review }
+        puts "REVIEW HAS BEEN SAVED #{@review}"
+        redirect_to product_path(@product)
       else
-        format.html { render :new }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
+        puts "SOMETHING Went Wrong"
+        p @review.errors
+        redirect_to product_path(@product)
       end
-    end
   end
 
   # PATCH/PUT /reviews/1
@@ -66,6 +66,12 @@ class ReviewsController < ApplicationController
     def set_review
       @review = Review.find(params[:id])
     end
+
+    def set_product
+      @product = Product.find_by(id: params[:product_id])
+    end
+
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
