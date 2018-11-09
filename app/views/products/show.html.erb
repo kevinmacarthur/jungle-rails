@@ -26,39 +26,42 @@
       </div>
     </div>
 
-  <div class="row">
+  <div class="row reviews-container">
     <dt> Reviews </dt>
       <div class="col-sm-8">
         <dl class="dl-horizontal">
-      <% @product.reviews.each do |review| %>
+        <% @sortedproduct = @product.reviews.sort_by(&:created_at ).reverse %>
+        <% @sortedproduct.each do |review| %>
+        <div class="review">
           <dt> <%= review.user.first_name%> <%= review.user.last_name%> : </dt>
           <dd> <%= review.description %> </dd>
           <dt>Rating :</dt>
           <dd> <%= review.rating %> </dd>
-          <dd> REVIEW USER ID IS <%= review.user.id %> </dd>
-          <dd> Current user id is <%= current_user.id %> </dd>
+          <dd> Created at <%= review.created_at %> </dd>
+          <% if @current_user && @current_user.id == review.user.id %>
+              <%= link_to 'Delete', product_review_path(@product,review), :class => "btn btn-primary btn-mini delete-review", method: :delete, data: { confirm:
+              'Are you sure?' }  %>
+          <% end %>
+        <% end %>
+        </div>
+        </dl>
+      </div>
+    </div>
+
+    <% if @current_user %>
+      <%= form_for [@product, @review] do |f| %>
+        <p>
+          <%= f.label :review %><br>
+          <%= f.text_field :description %>
+        </p>
+        <p>
+          <%= f.label :rating %><br>
+          <%= f.select :rating, [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5]] %>
+        </p>
+        <p>
+          <%= f.submit %>
+        </p>
       <% end %>
-      </dl>
-    </div>
-    </div>
-
-
-    <%= form_for [@product, @review] do |f| %>
-
-
-      <p>
-        <%= f.label :review %><br>
-        <%= f.text_field :description %>
-      </p>
-
-      <p>
-        <%= f.label :rating %><br>
-        <%= f.select :rating, [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5]] %>
-      </p>
-
-      <p>
-        <%= f.submit %>
-      </p>
     <% end %>
 
   </article>
