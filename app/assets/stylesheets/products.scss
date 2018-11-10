@@ -84,4 +84,33 @@ main section.products-show {
   }
 }
 
+.review-header {
+  text-align: center;
+  font-size: 28px;
+  text-decoration: underline;
+}
+.review {
+  width: 100%;
+  border: solid black 1px;
+  margin: 1em 0em;
+  border-radius: 8px;
+  position: relative;
+  padding: 1em 0;
+}
+.no-reviews {
+  text-align: center;
+  padding-top: 1em;
+}
 
+.new_review {
+  text-align: center;
+}
+
+.delete-review {
+  position: relative;
+  left: 48%;
+}
+
+.reviews-container {
+  padding: 0 10em;
+}
