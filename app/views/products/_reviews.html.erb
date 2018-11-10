@@ -1,0 +1,21 @@
+ <dl class="dl-horizontal">
+        <% @sortedproduct = @product.reviews.sort_by(&:created_at ).reverse %>
+        <% if @sortedproduct.length > 0 %>
+          <% @sortedproduct.each do |review| %>
+          <div class="review">
+            <dt> <%= review.user.first_name%> <%= review.user.last_name%> : </dt>
+            <dd> <%= review.description %> </dd>
+            <dt>Rating :</dt>
+            <dd> <%= pluralize(review.rating, "star") %> </dd>
+            <% if @current_user && @current_user.id == review.user.id %>
+                <%= link_to 'Delete', product_review_path(@product,review), :class => "delete-review", method: :delete, data: { confirm:
+                'Are you sure?' }  %>
+            <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="no-reviews">
+            <span> There are current no reviews for this product </span>
+          </div>
+        <% end %>
+        </dl>
