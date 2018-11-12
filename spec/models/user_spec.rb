@@ -9,12 +9,13 @@ RSpec.describe User, type: :model do
       first_name: "John",
       last_name: "doe",
       email: "1@test.com",
-      password: "123456"
+      password: "123456",
+      password_confirmation: "123456"
     })
 
     subject {
       described_class.new(first_name:'firstname', last_name: "Lastname",
-                          email: "123@test.com", password: "123456")
+                          email: "123@test.com", password: "123456", password_confirmation: "123456")
     }
 
     it "is valid with valid attributes" do
@@ -44,6 +45,11 @@ RSpec.describe User, type: :model do
       expect(subject).to_not be_valid
       expect(subject.errors.messages.size).to be > 0
     end
+    it "is not valid if password confirmation does not equal password" do
+      subject.password_confirmation = "notthesame"
+      expect(subject).to_not be_valid
+      expect(subject.errors.messages.size).to be > 0
+    end
     it "must have a password longer than 5 characters" do
       subject.password = "123"
       expect(subject).to_not be_valid
@@ -53,7 +59,7 @@ RSpec.describe User, type: :model do
   describe '.authenticate_with_credentials' do
 
      subject {
-      described_class.new(first_name:'firstname', last_name: "Lastname",
+      described_class.create(first_name:'firstname', last_name: "Lastname",
                           email: "123@test.com", password: "123456")
     }
 

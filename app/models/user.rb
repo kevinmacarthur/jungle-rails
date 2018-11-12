@@ -8,14 +8,15 @@ class User < ActiveRecord::Base
   validates :password, presence: true
   validates :password, length: { minimum: 5 }
 
+
   def authenticate_with_credentials(email, password)
     lowercaseEmail = email.downcase
     strippedEmail = lowercaseEmail.delete(' ')
-    if strippedEmail == self.email && password == self.password
-      self
+    user = User.find_by(email: strippedEmail)
+    if user && user.authenticate(password)
+      user
     else
       nil
+    end
   end
-end
-
 end
