@@ -14,17 +14,21 @@ A mini e-commerce application built with Rails 4.2
 
 ### Home Screen
 
+![""](https://github.com/kevinmacarthur/jungle-rails/blob/master/images/Home%20Screen.png)
 
 ### Individual Product Page
 
 #### Log in to leave your own comment and rating!
 
+![""](https://github.com/kevinmacarthur/jungle-rails/blob/master/images/Individual%20Product.png)
 
 ### Add items to your cart
 
+![""](https://github.com/kevinmacarthur/jungle-rails/blob/master/images/My%20Cart.png)
 
 ### Order Confirmation and email with line item details will be sent after checkout
 
+![""](https://github.com/kevinmacarthur/jungle-rails/blob/master/images/Order%20Confirmation.png)
 
 ## Stripe Testing
 
