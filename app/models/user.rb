@@ -11,11 +11,11 @@ class User < ActiveRecord::Base
   def authenticate_with_credentials(email, password)
     lowercaseEmail = email.downcase
     strippedEmail = lowercaseEmail.delete(' ')
-    if strippedEmail == self.email && password == self.password
-      self
+    user = User.find_by(email: strippedEmail)
+    if user && user.authenticate(password)
+      user
     else
       nil
+    end
   end
-end
-
 end
