@@ -3,18 +3,9 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'Validations' do
 
-    User.where(email: "1@test.com").destroy_all
-
-    User.create!({
-      first_name: "John",
-      last_name: "doe",
-      email: "1@test.com",
-      password: "123456"
-    })
-
     subject {
       described_class.new(first_name:'firstname', last_name: "Lastname",
-                          email: "123@test.com", password: "123456")
+                          email: "123@test.com", password: "123456", password_confirmation: "123456")
     }
 
     it "is valid with valid attributes" do
@@ -36,11 +27,29 @@ RSpec.describe User, type: :model do
       expect(subject.errors.messages.size).to be > 0
     end
     it "is not valid without a unique email" do
-      subject.email = "1@test.com"
-      expect(subject).to_not be_valid
+      User.create!({
+        first_name: "John",
+        last_name: "doe",
+        email: "1@test.com",
+        password: "123456",
+        password_confirmation: "123456"
+      })
+      test_user = User.create({
+          first_name: "blah",
+          last_name: "blah",
+          email: "1@test.com",
+          password: "123456",
+          password_confirmation: "123456"
+        })
+      expect(test_user).to_not be_valid
     end
     it "is not valid without a password" do
       subject.password = nil
+      expect(subject).to_not be_valid
+      expect(subject.errors.messages.size).to be > 0
+    end
+    it "is not valid if password confirmation does not equal password" do
+      subject.password_confirmation = "notthesame"
       expect(subject).to_not be_valid
       expect(subject.errors.messages.size).to be > 0
     end
@@ -53,7 +62,7 @@ RSpec.describe User, type: :model do
   describe '.authenticate_with_credentials' do
 
      subject {
-      described_class.new(first_name:'firstname', last_name: "Lastname",
+      described_class.create(first_name:'firstname', last_name: "Lastname",
                           email: "123@test.com", password: "123456")
     }
 
