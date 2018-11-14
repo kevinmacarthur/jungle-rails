@@ -9,12 +9,13 @@ class OrdersController < ApplicationController
     charge = perform_stripe_charge
     order  = create_order(charge)
 
-    if order && order.valid?
+    if order
       empty_cart!
       OrderMailer.sample_email(order).deliver_now
       redirect_to order, notice: 'Your Order has been placed.'
-    else
-      redirect_to cart_path, flash: { error: order.errors.full_messages.first }
+    # else
+    #     redirect_to cart_path
+      # redirect_to cart_path, flash: { error: order.errors.full_messages.first }
     end
 
   rescue Stripe::CardError => e
@@ -40,8 +41,6 @@ class OrdersController < ApplicationController
 
   def create_order(stripe_charge)
 
-    return nil if !enhanced_cart.any?
-
       order = Order.new(
         email: params[:stripeEmail],
         total_cents: cart_subtotal_cents,
@@ -58,8 +57,15 @@ class OrdersController < ApplicationController
           total_price: product.price * quantity
         )
       end
-      order.save!
+      # order.save!
+      if order.save
       order
+      else
+        puts "COULDNT SAVE ORDER"
+        p order.errors.full_messages
+        redirect_to cart_path, alert: "#{order.errors.full_messages}"
+        nil
+      end
   end
 
 

@@ -3,6 +3,11 @@
   <header class="page-header">
     <h1>My Cart</h1>
   </header>
+  <% flash.each do |name, msg| %>
+    <%= content_tag(:div, msg, class: "alert") %>
+  <% end %>
+
+  <!-- this flash each shows the message -->
   <% if enhanced_cart.length > 0 %>
     <%= render 'items' %>
   <% else %>

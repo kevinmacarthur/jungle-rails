@@ -6,8 +6,8 @@ class Order < ActiveRecord::Base
   monetize :total_cents, numericality: true
 
   validates :stripe_charge_id, presence: true
+  validate :checkStock
 
-  before_create :checkStock
   after_create :updateProducts
 
   def updateProducts
@@ -18,15 +18,18 @@ class Order < ActiveRecord::Base
     end
   end
 
+  private
+
   def checkStock
+    valid = true
     self.line_items.each do |item|
       newQuantity = item.product.quantity - item.quantity
       if newQuantity >= 0
-        puts "Have enough stock for order"
       else
-        puts "SORRY ONLY HAVE #{item.product.quantity} #{item.product.name} in stock "
-        fail
+        self.errors[:quantity] << "Error: Have #{item.product.quantity} #{item.product.name} left in stock, You ordered #{item.quantity}"
+        valid = false
       end
     end
+    valid
   end
 end
