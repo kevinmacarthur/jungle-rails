@@ -13,9 +13,6 @@ class OrdersController < ApplicationController
       empty_cart!
       OrderMailer.sample_email(order).deliver_now
       redirect_to order, notice: 'Your Order has been placed.'
-    # else
-    #     redirect_to cart_path
-      # redirect_to cart_path, flash: { error: order.errors.full_messages.first }
     end
 
   rescue Stripe::CardError => e
@@ -30,7 +27,6 @@ class OrdersController < ApplicationController
   end
 
   def perform_stripe_charge
-
     Stripe::Charge.create(
       source:      params[:stripeToken],
       amount:      cart_subtotal_cents,
@@ -67,6 +63,5 @@ class OrdersController < ApplicationController
         nil
       end
   end
-
 
 end

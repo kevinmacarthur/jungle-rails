@@ -1,8 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:destroy]
   before_action :set_product,
-  # GET /reviews
-  # GET /reviews.json
+
   def index
     @reviews = Review.all
   end
@@ -15,8 +14,6 @@ class ReviewsController < ApplicationController
     @review = Review.new
   end
 
-  # POST /reviews
-  # POST /reviews.json
   def create
     @current_user = current_user
     @review = @current_user.reviews.build(review_params)
@@ -31,8 +28,6 @@ class ReviewsController < ApplicationController
       end
   end
 
-  # DELETE /reviews/1
-  # DELETE /reviews/1.json
   def destroy
     @review.destroy
     redirect_to product_path(@product)
@@ -47,7 +42,6 @@ class ReviewsController < ApplicationController
     def set_product
       @product = Product.find_by(id: params[:product_id])
     end
-
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params

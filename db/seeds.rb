@@ -172,7 +172,6 @@ user1 = User.find_or_create_by! id:1
 user2 = User.find_or_create_by! id:2
 user3 = User.find_or_create_by! id:3
 
-
 product1.reviews.create!({
   user_id: user1.id,
   description: "THIS WAS A VERY GOOD PRODUCT",

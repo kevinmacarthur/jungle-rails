@@ -10,9 +10,9 @@
     </p>
 
     <% @order.line_items.each do |item| %>
-      <strong> Name: </strong> <%=  item.product.name %></td> <br />
-      <strong> Description: </strong> <%= item.product.description %></td><br />
-      <td><strong> Quantity: </strong><%= item.quantity %></td>
+      <strong> Name: </strong> <%=  item.product.name %> <br />
+      <strong> Description: </strong> <%= item.product.description %><br />
+      <strong> Quantity: </strong><%= item.quantity %>
     <% end %>
     <span> ORDER TOTAL: <%= humanized_money_with_symbol (@order.total_cents / 100.0) %> </span> <br />
     <span> We hope you enjoyed your visit </span>
